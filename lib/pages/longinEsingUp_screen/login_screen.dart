@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cuidar_ilpi/pages/longinEsingUp_screen/widgets/custom_button.dart';
+import 'package:cuidar_ilpi/_comum/my_snackbar.dart';
+import 'package:cuidar_ilpi/services/autentification_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,7 +13,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-
+  final AutentificationService _autentificationService = AutentificationService();
   // Variável para controlar a visibilidade da senha
   bool _isPasswordVisible = false;
 
@@ -58,32 +60,16 @@ class _LoginScreenState extends State<LoginScreen> {
             Stack(
               alignment: Alignment.center,
               children: [
+                SizedBox(height: height * 0.35), // Espaço acima da imagem
                 Container(
                   height: height * 0.35,
-                  child:
-                      Image.asset("assets/images/login_singUp/Logo_Login_.png"),
-                ),
-                const Positioned(
-                  bottom: 0,
-                  child: Text(
-                    "Cuidado na ILPI ",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25,
-                      color: Color.fromARGB(255, 0, 0, 0),
-                    ),
-                  ),
+                  child: Image.asset(
+                      "assets/images/login_singUp/logo_oficial.png"),
                 ),
               ],
             ),
-            Container(
-              alignment: Alignment.center,
-              child: const Text(
-                "Seja Bem-vindo, faça parte da nossa equipe",
-                style: TextStyle(color: Color.fromARGB(255, 77, 74, 74)),
-              ),
-            ),
-            SizedBox(height: height * 0.04),
+            // Removido o texto "Seja Bem-vindo..."
+            SizedBox(height: height * 0.00001),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 37.0),
               child: TextFormField(
@@ -122,8 +108,21 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: const Color.fromARGB(255, 0, 0, 0),
                   text: "Login",
                   onPressed: () {
-                    Navigator.pushNamed(context, '/home');
-                    print("foi clicado");
+                    // Chama o método de login
+                    _autentificationService.loginUsuario(
+                      email: emailController.text,
+                      senha: passwordController.text,
+                    ).then((erro) {
+                      if (erro == null) {
+                        // Login bem-sucedido
+                        mostrarSnackbar(context: context, mensagem: 'Login bem-sucedido', isError: false);
+                        Navigator.pushNamed(context, '/home');
+                        print("Login bem-sucedido");
+                      } else {
+                        // Exibe mensagem de erro
+                        mostrarSnackbar(context: context, mensagem: erro, isError: true);
+                      }
+                    });
                   },
                 ),
               ),
@@ -160,8 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: const Color.fromARGB(255, 0, 0, 0),
                       image: Image.asset(
                           "assets/images/login_singUp/google-symbol.png"),
-                      onPressed: () {
-                      },
+                      onPressed: () {},
                     ),
                   ),
                 ],

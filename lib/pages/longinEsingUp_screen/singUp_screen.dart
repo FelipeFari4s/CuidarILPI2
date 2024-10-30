@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cuidar_ilpi/pages/longinEsingUp_screen/widgets/custom_button.dart';
+import 'package:cuidar_ilpi/services/autentification_service.dart';
+import 'package:cuidar_ilpi/_comum/my_snackbar.dart'; // Corrigido o caminho
+
 
 class signUpScreen extends StatefulWidget {
   const signUpScreen({super.key});
@@ -20,11 +23,12 @@ class _signUpScreenState extends State<signUpScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
 
   // Chave global para o formulário
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  AutentificationService _autentificationService = AutentificationService();
 
   @override
   Widget build(BuildContext context) {
@@ -119,6 +123,12 @@ class _signUpScreenState extends State<signUpScreen> {
                 controller: nameController,
                 keyboardType: TextInputType.name,
                 decoration: inputDecoration("Nome do Usuário", Icons.person),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor, insira seu nome';
+                  }
+                  return null;
+                },
               ),
             ),
             SizedBox(height: height * 0.01),
@@ -128,6 +138,12 @@ class _signUpScreenState extends State<signUpScreen> {
                 controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: inputDecoration("Email", Icons.email),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor, insira seu email';
+                  }
+                  return null;
+                },
               ),
             ),
             SizedBox(height: height * 0.01),
@@ -137,6 +153,31 @@ class _signUpScreenState extends State<signUpScreen> {
                 controller: phoneController,
                 keyboardType: TextInputType.phone,
                 decoration: inputDecoration("Telefone", Icons.phone),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor, insira seu telefone';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            SizedBox(height: height * 0.03),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 25.0),
+              child: Text(
+                "Requisitos para a senha:",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+            ),
+            SizedBox(height: height * 0.01),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              child: Text(
+                "- Mínimo de 6 caracteres\n"
+                "- Deve conter pelo menos uma letra maiúscula\n"
+                "- Deve conter pelo menos uma letra minúscula\n"
+                "- Deve conter pelo menos um número\n",
+                style: TextStyle(color: Colors.grey[600]),
               ),
             ),
             SizedBox(height: height * 0.01),
@@ -145,11 +186,23 @@ class _signUpScreenState extends State<signUpScreen> {
               child: TextFormField(
                 controller: passwordController,
                 obscureText: !_isPasswordVisible,
-                decoration:
-                    inputDecoration("Senha", Icons.lock, isPassword: true),
+                decoration: inputDecoration("Senha", Icons.lock, isPassword: true),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Por favor, insira uma senha';
+                  }
+                  // Validação da senha
+                  if (value.length < 6) {
+                    return 'A senha deve ter pelo menos 6 caracteres';
+                  }
+                  if (!RegExp(r'[A-Z]').hasMatch(value)) {
+                    return 'A senha deve conter pelo menos uma letra maiúscula';
+                  }
+                  if (!RegExp(r'[a-z]').hasMatch(value)) {
+                    return 'A senha deve conter pelo menos uma letra minúscula';
+                  }
+                  if (!RegExp(r'[0-9]').hasMatch(value)) {
+                    return 'A senha deve conter pelo menos um número';
                   }
                   return null;
                 },
@@ -180,7 +233,7 @@ class _signUpScreenState extends State<signUpScreen> {
               child: DropdownButtonFormField<String>(
                 decoration: inputDecoration("Sexo", Icons.wc),
                 value: _selectedGender,
-                items: ["Masculino", "Feminino"].map((String value) {
+                items: ["Masculino", "Feminino", "Outros"].map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),
@@ -190,6 +243,12 @@ class _signUpScreenState extends State<signUpScreen> {
                   setState(() {
                     _selectedGender = newValue;
                   });
+                },
+                validator: (value) {
+                  if (value == null) {
+                    return 'Por favor, selecione seu sexo';
+                  }
+                  return null;
                 },
               ),
             ),
@@ -213,6 +272,12 @@ class _signUpScreenState extends State<signUpScreen> {
                   setState(() {
                     _selectedCategory = newValue;
                   });
+                },
+                validator: (value) {
+                  if (value == null) {
+                    return 'Por favor, selecione sua categoria profissional';
+                  }
+                  return null;
                 },
               ),
             ),
@@ -256,7 +321,25 @@ class _signUpScreenState extends State<signUpScreen> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       // Se a validação passar
-                      print('Registro bem-sucedido');
+                      _autentificationService.cadastrarUsuario(
+                        nome: nameController.text,
+                        email: emailController.text,
+                        senha: passwordController.text,
+                        telefone: phoneController.text,
+                        genero: _selectedGender ?? '',
+                        categoria: _selectedCategory ?? '',
+                        anosExperiencia: _experienceYears,
+                      ).then((erro) {
+                        // Corrigido a verificação de erro
+                        if (erro == null) { // Verifique se o erro é null para sucesso
+                          print('Cadastro bem-sucedido');
+                          mostrarSnackbar(context: context, mensagem: 'Cadastro bem-sucedido', isError: false); // Alterado para isError: false
+                          // Navegue para a próxima tela ou faça o que for necessário
+                        } else {
+                          print('Erro ao cadastrar: $erro');
+                          mostrarSnackbar(context: context, mensagem: 'Erro ao cadastrar: $erro', isError: true);
+                        }
+                      });
                     }
                   },
                 ),

@@ -3,7 +3,7 @@ import 'package:cuidar_ilpi/pages/monitoramento/detail/psicoespirituais.dart';
 import 'package:cuidar_ilpi/pages/monitoramento/detail/psicossociais.dart';
 import 'package:flutter/material.dart';
 import 'package:cuidar_ilpi/pages/monitoramento/detail/ant_pessoais_screen.dart';
-import 'package:cuidar_ilpi/pages/monitoramento/detail/medicacao_screen.dart';
+//import 'package:cuidar_ilpi/pages/monitoramento/detail/medicacao_screen.dart';
 import 'package:cuidar_ilpi/pages/monitoramento/detail/sinais_vitais.dart';
 import 'package:cuidar_ilpi/pages/monitoramento/detail/psicobiologicas_screen.dart';
 
@@ -21,6 +21,7 @@ class HealthMonitoringDetailScreen extends StatefulWidget {
 class _HealthMonitoringDetailScreenState
     extends State<HealthMonitoringDetailScreen> {
   // Dados fictícios para o exemplo
+  
   final Map<String, String> elderlyData = {
     'Nome': 'João da Silva',
     'Data de Nascimento': '15/08/1945',
@@ -133,12 +134,7 @@ class _HealthMonitoringDetailScreenState
                           image: Image.asset(
                               "assets/icons/monitoramento/Medicações.png"),
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => MedicationScreen(),
-                              ),
-                            );
+                            
                           },
                         ),
                       ),
