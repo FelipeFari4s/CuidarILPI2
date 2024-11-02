@@ -2,6 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:cuidar_ilpi/models/idoso_modelo.dart';
 import 'package:cuidar_ilpi/utils/app_colors.dart';
 import 'package:cuidar_ilpi/pages/monitoramento/acompanhamento/detail/regulacao_neurologica_page.dart';
+import 'package:cuidar_ilpi/pages/monitoramento/acompanhamento/detail/nutricao_page.dart';
+import 'package:cuidar_ilpi/pages/monitoramento/acompanhamento/detail/hidratacao_page.dart';
+import 'package:cuidar_ilpi/pages/monitoramento/acompanhamento/detail/eliminacao_page.dart';
+import 'package:cuidar_ilpi/pages/monitoramento/acompanhamento/detail/sensopercepcao_page.dart';
+import 'package:cuidar_ilpi/pages/monitoramento/acompanhamento/detail/integridade_pele_page.dart';
+import 'package:cuidar_ilpi/pages/monitoramento/acompanhamento/detail/sono_repouso_page.dart';
+import 'package:cuidar_ilpi/pages/monitoramento/acompanhamento/detail/cuidado_corporal_page.dart';
+import 'package:cuidar_ilpi/pages/monitoramento/acompanhamento/detail/locomocao_page.dart';
+import 'package:cuidar_ilpi/pages/monitoramento/acompanhamento/detail/sexualidade_page.dart';
+import 'package:cuidar_ilpi/pages/monitoramento/acompanhamento/detail/seguranca_fisica_page.dart';
 
 class NecessidadesPsicobiologicasPage extends StatelessWidget {
   final IdosoModelo idoso;
@@ -46,70 +56,140 @@ class NecessidadesPsicobiologicasPage extends StatelessWidget {
               'Nutrição',
               Icons.restaurant,
               Colors.green[600]!,
-              () {},
+              () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NutricaoPage(idoso: idoso),
+                  ),
+                );
+              },
             ),
             _buildButton(
               context,
               'Hidratação',
               Icons.water_drop,
               Colors.lightBlue,
-              () {},
+              () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HidratacaoPage(idoso: idoso),
+                  ),
+                );
+              },
             ),
             _buildButton(
               context,
               'Eliminação',
               Icons.recycling,
               Colors.brown,
-              () {},
+              () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EliminacaoPage(idoso: idoso),
+                  ),
+                );
+              },
             ),
             _buildButton(
               context,
               'Sensopercepção',
               Icons.visibility,
               Colors.purple,
-              () {},
+              () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SensopercepcaoPage(idoso: idoso),
+                  ),
+                );
+              },
             ),
             _buildButton(
               context,
               'Integridade\nda Pele',
               Icons.healing,
               Colors.pink[300]!,
-              () {},
+              () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => IntegridadePelePage(idoso: idoso),
+                  ),
+                );
+              },
             ),
             _buildButton(
               context,
               'Sono e\nRepouso',
               Icons.bedtime,
               Colors.indigo,
-              () {},
+              () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SonoRepousoPage(idoso: idoso),
+                  ),
+                );
+              },
             ),
             _buildButton(
               context,
               'Cuidado\nCorporal',
               Icons.shower,
               Colors.teal,
-              () {},
+              () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CuidadoCorporalPage(idoso: idoso),
+                  ),
+                );
+              },
             ),
             _buildButton(
               context,
               'Locomoção e\nAtividade Física',
               Icons.directions_walk,
               Colors.orange[700]!,
-              () {},
+              () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LocomocaoPage(idoso: idoso),
+                  ),
+                );
+              },
             ),
             _buildButton(
               context,
               'Sexualidade',
               Icons.favorite,
               Colors.red,
-              () {},
+              () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SexualidadePage(idoso: idoso),
+                  ),
+                );
+              },
             ),
             _buildButton(
               context,
               'Segurança Física e\nMeio Ambiente',
               Icons.security,
               Colors.green[800]!,
-              () {},
+              () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SegurancaFisicaPage(idoso: idoso),
+                  ),
+                );
+              },
             ),
           ],
         ),

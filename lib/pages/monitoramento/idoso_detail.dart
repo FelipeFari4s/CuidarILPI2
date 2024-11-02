@@ -1,13 +1,13 @@
-import 'package:cuidar_ilpi/pages/longinEsingUp_screen/widgets/custom_button.dart';
-import 'package:cuidar_ilpi/pages/monitoramento/detail/psicoespirituais.dart';
-import 'package:cuidar_ilpi/pages/monitoramento/detail/psicossociais.dart';
-import 'package:flutter/material.dart';
-import 'package:cuidar_ilpi/pages/monitoramento/detail/ant_pessoais_screen.dart';
+//import 'package:cuidar_ilpi/pages/longinEsingUp_screen/widgets/custom_button.dart';
+//import 'package:cuidar_ilpi/pages/monitoramento/detail/psicoespirituais.dart';
+//import 'package:cuidar_ilpi/pages/monitoramento/detail/psicossociais.dart';
+//import 'package:flutter/material.dart';
+//import 'package:cuidar_ilpi/pages/monitoramento/detail/ant_pessoais_screen.dart';
 //import 'package:cuidar_ilpi/pages/monitoramento/detail/medicacao_screen.dart';
-import 'package:cuidar_ilpi/pages/monitoramento/detail/sinais_vitais.dart';
-import 'package:cuidar_ilpi/pages/monitoramento/detail/psicobiologicas_screen.dart';
+//import 'package:cuidar_ilpi/pages/monitoramento/detail/sinais_vitais.dart';
+//import 'package:cuidar_ilpi/pages/monitoramento/detail/psicobiologicas_screen.dart';
 
-class HealthMonitoringDetailScreen extends StatefulWidget {
+/*class HealthMonitoringDetailScreen extends StatefulWidget {
   final int id; // Identificador do idoso para passar as informações
 
   const HealthMonitoringDetailScreen({Key? key, required this.id})
@@ -241,3 +241,4 @@ class _HealthMonitoringDetailScreenState
     );
   }
 }
+*/

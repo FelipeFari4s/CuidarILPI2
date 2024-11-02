@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:cuidar_ilpi/pages/longinEsingUp_screen/login_screen.dart';
 import 'package:cuidar_ilpi/pages/longinEsingUp_screen/singUp_screen.dart';
 import 'package:cuidar_ilpi/pages/home/home_page.dart';
-import 'package:cuidar_ilpi/pages/monitoramento/monitoring_screen.dart';
+//import 'package:cuidar_ilpi/pages/monitoramento/monitoring_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginScreen(),
         '/sign_up': (context) => const signUpScreen(),
         '/home': (context) => const RoteadorTela(),
-        '/monitoring': (context) => const MonitoringScreen(),
+        //'/monitoring': (context) => const MonitoringScreen(),
         '/daily_activities': (context) => const DailyActivitiesScreen(),
         '/alimentacao': (context) => const AlimentacaoScreen(),
         '/higiene': (context) => const HigieneScreen(),
@@ -56,22 +56,61 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class RoteadorTela extends StatelessWidget {
+class RoteadorTela extends StatefulWidget {
   const RoteadorTela({super.key});
 
   @override
+  State<RoteadorTela> createState() => _RoteadorTelaState();
+}
+
+class _RoteadorTelaState extends State<RoteadorTela> {
+  bool _isInitialized = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeFirebase();
+  }
+
+  Future<void> _initializeFirebase() async {
+    try {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+      setState(() {
+        _isInitialized = true;
+      });
+    } catch (e) {
+      print('Erro ao inicializar Firebase: $e');
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (!_isInitialized) {
+      return Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.userChanges(),
+      stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.active) {
-          if (snapshot.hasData) {
-            return Monitoramento(user: snapshot.data!,);//MyHomePage();  // Usuário logado 
-          } else {
-            return const LoginScreen(); // Usuário deslogado
-          }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
         }
-        return const Center(child: CircularProgressIndicator()); // Carregando
+
+        if (snapshot.hasData) {
+          return Monitoramento(user: snapshot.data!,);//MyHomePage();
+        }
+
+        return const LoginScreen();
       },
     );
   }

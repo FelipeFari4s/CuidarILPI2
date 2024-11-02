@@ -16,6 +16,43 @@ class _LoginScreenState extends State<LoginScreen> {
   final AutentificationService _autentificationService = AutentificationService();
   // Variável para controlar a visibilidade da senha
   bool _isPasswordVisible = false;
+  bool _isLoading = false;
+
+  Future<void> _realizarLogin() async {
+    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+      mostrarSnackbar(
+        context: context, 
+        mensagem: 'Preencha todos os campos', 
+        isError: true
+      );
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      final erro = await _autentificationService.loginUsuario(
+        email: emailController.text,
+        senha: passwordController.text,
+      );
+
+      if (erro == null) {
+        mostrarSnackbar(
+          context: context, 
+          mensagem: 'Login bem-sucedido', 
+          isError: false
+        );
+      } else {
+        mostrarSnackbar(
+          context: context, 
+          mensagem: erro, 
+          isError: true
+        );
+      }
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,24 +143,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: EdgeInsets.symmetric(horizontal: width * 0.25),
                 child: CustomButton(
                   color: const Color.fromARGB(255, 0, 0, 0),
-                  text: "Login",
-                  onPressed: () {
-                    // Chama o método de login
-                    _autentificationService.loginUsuario(
-                      email: emailController.text,
-                      senha: passwordController.text,
-                    ).then((erro) {
-                      if (erro == null) {
-                        // Login bem-sucedido
-                        mostrarSnackbar(context: context, mensagem: 'Login bem-sucedido', isError: false);
-                        Navigator.pushNamed(context, '/home');
-                        print("Login bem-sucedido");
-                      } else {
-                        // Exibe mensagem de erro
-                        mostrarSnackbar(context: context, mensagem: erro, isError: true);
-                      }
-                    });
-                  },
+                  text: _isLoading ? "Carregando..." : "Login",
+                  onPressed: _isLoading ? () {} : () => _realizarLogin(),
                 ),
               ),
             ),

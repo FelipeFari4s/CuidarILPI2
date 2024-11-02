@@ -26,26 +26,39 @@ class _RegulacaoNeurologicaPageState extends State<RegulacaoNeurologicaPage> {
         title: const Text('Regulação Neurológica',
             style: TextStyle(color: AppColors.textLight)),
       ),
-      body: StreamBuilder<DocumentSnapshot>(
-        stream: _idosoService.getRegulacaoNeurologica(widget.idoso.id),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Colors.white, AppColors.primary.withOpacity(0.1)],
+          ),
+        ),
+        child: StreamBuilder<DocumentSnapshot>(
+          stream: _idosoService.getRegulacaoNeurologica(widget.idoso.id),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            }
 
-          if (snapshot.hasError) {
-            return _buildErrorState();
-          }
+            if (snapshot.hasError) {
+              return _buildErrorState();
+            }
 
-          if (!snapshot.hasData || !snapshot.data!.exists) {
-            return _buildEmptyState();
-          }
+            if (!snapshot.hasData || !snapshot.data!.exists) {
+              return _buildEmptyState();
+            }
 
-          final dados = snapshot.data!.data() as Map<String, dynamic>;
-          final avaliacao = RegulacaoNeurologicaModelo.fromMap(dados);
+            final dados = snapshot.data!.data() as Map<String, dynamic>;
+            final avaliacao = RegulacaoNeurologicaModelo.fromMap(dados);
 
-          return _buildContent(avaliacao);
-        },
+            return SafeArea(
+              child: _buildContent(avaliacao),
+            );
+          },
+        ),
       ),
     );
   }
@@ -67,69 +80,51 @@ class _RegulacaoNeurologicaPageState extends State<RegulacaoNeurologicaPage> {
   }
 
   Widget _buildEmptyState() {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Colors.white, AppColors.primary.withOpacity(0.1)],
-        ),
-      ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.psychology_outlined, 
-                size: 80, color: AppColors.primary),
-            SizedBox(height: 16),
-            Text(
-              'Nenhuma avaliação registrada',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: AppColors.primary,
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.psychology_outlined, 
+              size: 80, color: AppColors.primary),
+          SizedBox(height: 16),
+          Text(
+            'Nenhuma avaliação registrada',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: AppColors.primary,
+            ),
+          ),
+          SizedBox(height: 24),
+          ElevatedButton.icon(
+            onPressed: () => _mostrarModalAvaliacao(context),
+            icon: Icon(Icons.add),
+            label: Text('Realizar Primeira Avaliação'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.primary,
+              padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
               ),
             ),
-            SizedBox(height: 24),
-            ElevatedButton.icon(
-              onPressed: () => _mostrarModalAvaliacao(context),
-              icon: Icon(Icons.add),
-              label: Text('Realizar Primeira Avaliação'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildContent(RegulacaoNeurologicaModelo avaliacao) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Colors.white, AppColors.primary.withOpacity(0.1)],
-        ),
-      ),
-      child: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildHeader(avaliacao),
-            SizedBox(height: 24),
-            _buildStatusCard('Nível de Consciência', avaliacao.nivelConsciencia),
-            SizedBox(height: 16),
-            _buildStatusCard('Memória', avaliacao.memoria),
-          ],
-        ),
+    return SingleChildScrollView(
+      padding: EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildHeader(avaliacao),
+          SizedBox(height: 24),
+          _buildStatusCard('Nível de Consciência', avaliacao.nivelConsciencia),
+          SizedBox(height: 16),
+          _buildStatusCard('Memória', avaliacao.memoria),
+        ],
       ),
     );
   }

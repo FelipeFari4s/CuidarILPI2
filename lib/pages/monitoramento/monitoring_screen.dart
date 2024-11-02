@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:cuidar_ilpi/pages/monitoramento/idoso_detail.dart';
 
 class MonitoringScreen extends StatefulWidget {
@@ -294,3 +294,4 @@ class _MonitoringScreenState extends State<MonitoringScreen> {
     );
   }
 }
+*/

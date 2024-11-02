@@ -1,7 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AutentificationService {
-  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  AutentificationService() {
+    // Habilita persistência
+    _firebaseAuth.setPersistence(Persistence.LOCAL);
+  }
 
   Future<String?> cadastrarUsuario({
     required String nome,
