@@ -6,17 +6,24 @@ import 'package:cuidar_ilpi/Seguranca/Conteudo/PrevensaoQuedas.dart';
 import 'package:cuidar_ilpi/Seguranca/Conteudo/Prevesencao.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cuidar_ilpi/widgets/app_drawer.dart';
+import 'package:cuidar_ilpi/widgets/custom_app_bar.dart';
+// ... outros imports existentes ...
 
 class SafetyScreen extends StatelessWidget {
   const SafetyScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final User currentUser = FirebaseAuth.instance.currentUser!;
+    
     return Scaffold(
       backgroundColor: Colors.grey[100],
+      endDrawer: AppDrawer(user: currentUser),
       body: Column(
         children: [
-          _buildAppBar(), // Reutiliza a AppBar
+          CustomAppBar(user: currentUser),
           const SizedBox(height: 10),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),

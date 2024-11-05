@@ -17,7 +17,7 @@ import 'package:cuidar_ilpi/Seguranca/Seguranca.dart';
 import 'package:cuidar_ilpi/pages/monitoramento/monitoring.dart';
 import 'package:cuidar_ilpi/Funcionalidade/Funcionalidade.dart';
 import 'package:cuidar_ilpi/Referencias/referencias.dart';
-
+import 'package:cuidar_ilpi/perfil/perfil.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,7 +39,6 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginScreen(),
         '/sign_up': (context) => const signUpScreen(),
         '/home': (context) => const RoteadorTela(),
-        //'/monitoring': (context) => const MonitoringScreen(),
         '/daily_activities': (context) => const DailyActivitiesScreen(),
         '/alimentacao': (context) => const AlimentacaoScreen(),
         '/higiene': (context) => const HigieneScreen(),
@@ -50,7 +49,8 @@ class MyApp extends StatelessWidget {
         '/safety': (context) => const SafetyScreen(),
         '/fun': (context) => const FunScreen(),
         '/references': (context) => ReferenciasPage(),
-        '/monitoramento': (context) => Monitoramento(user: FirebaseAuth.instance.currentUser!),
+        '/monitoramento': (context) => MonitoringScreen(user: FirebaseAuth.instance.currentUser!),
+        '/profile': (context) => const UserProfileScreen(),
       },
     );
   }
@@ -107,7 +107,7 @@ class _RoteadorTelaState extends State<RoteadorTela> {
         }
 
         if (snapshot.hasData) {
-          return Monitoramento(user: snapshot.data!,);//MyHomePage();
+          return MyHomePage(user: snapshot.data!); //Monitoramento(user: snapshot.data!,);//
         }
 
         return const LoginScreen();

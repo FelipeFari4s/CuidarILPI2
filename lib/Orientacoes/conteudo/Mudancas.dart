@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cuidar_ilpi/widgets/app_drawer.dart';
+import 'package:cuidar_ilpi/widgets/custom_app_bar.dart';
 
 class MudancasScreen extends StatelessWidget {
   const MudancasScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final User currentUser = FirebaseAuth.instance.currentUser!;
+    
     return Scaffold(
-      backgroundColor: const Color(0xFFCAE5D1), // Fundo verde claro
+      backgroundColor: const Color(0xFFCAE5D1),
+      endDrawer: AppDrawer(user: currentUser),
       body: Column(
         children: [
-          _buildAppBar(), // AppBar personalizada
+          CustomAppBar(user: currentUser),
           const SizedBox(height: 10),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
@@ -92,28 +98,33 @@ class MudancasScreen extends StatelessWidget {
           const SizedBox(height: 10),
           const Text(
             "O cuidado com a mudança de posicionamento regular das pessoas idosas que têm restrição de mobilidade em Instituições de Longa Permanência para Idosos (ILPI) é essencial para garantir conforto, bem-estar e prevenção de complicações. A seguir, algumas orientações e dicas sobre como realizar esse cuidado com segurança e eficácia:",
-            style: TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
           const Text(
             "Frequência da mudança de posição:",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
+          const SizedBox(height: 5),
           const Text(
-              "⦁ O ideal é que as pessoas idosas sejam reposicionadas a cada duas horas, especialmente as que estão acamadas. Para as que ficam em cadeira de rodas, recomenda-se mudanças de posição a cada uma hora. Esse intervalo ajuda a redistribuir a pressão nas áreas vulneráveis do corpo, prevenindo lesões na pele e tecidos subjacentes."),
+              " O ideal é que as pessoas idosas sejam reposicionadas a cada duas horas, especialmente as que estão acamadas. Para as que ficam em cadeira de rodas, recomenda-se mudanças de posição a cada uma hora. Esse intervalo ajuda a redistribuir a pressão nas áreas vulneráveis do corpo, prevenindo lesões na pele e tecidos subjacentes."),
           const SizedBox(height: 10),
           const Text(
             "Técnicas de mudança de posição:",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
+          const SizedBox(height: 5),
           const Text(
               "⦁ Planejamento: antes de reposicionar a pessoa idosa, certifique-se de que todos os materiais necessários, como travesseiros, almofadas e cobertores, estão disponíveis. Isso facilitará o processo e garantirá conforto à pessoa idosa."),
+          const SizedBox(height: 3),
           const Text(
               "⦁ Utilização de almofadas: colocar almofadas sob áreas de pressão, como joelhos, tornozelos ou cotovelos, ajuda a distribuir melhor o peso e aliviar pontos de pressão. Utilize almofadas ou travesseiros macios, que se adaptem ao corpo da pessoa idosa."),
+          const SizedBox(height: 3),
           const Text(
               "⦁ Elevação dos membros inferiores: quando a pessoa idosa estiver deitada, eleve levemente as pernas com travesseiros para melhorar a circulação e reduzir o inchaço nas extremidades."),
+          const SizedBox(height: 3),
           const Text(
               "⦁ Uso de técnica adequada: ao reposicionar a pessoa idosa, levante-a cuidadosamente com ajuda de outros cuidadores ou dispositivos, evitando arrastar o corpo sobre a cama ou cadeira, o que pode causar lesões na pele. Use técnicas corretas de levantamento para evitar ferimentos tanto na pessoa idosa quanto em você."),
+          const SizedBox(height: 3),
           const Text(
               "⦁ Rotações suaves: alterne o posicionamento entre decúbito dorsal (de costas), decúbito lateral (de lado) e, ocasionalmente, decúbito ventral (de barriga para baixo), conforme a condição da pessoa idosa e a orientação médica. Esse rodízio de posições evita pressão prolongada em áreas específicas do corpo."),
           const SizedBox(height: 10),
@@ -131,15 +142,19 @@ class MudancasScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            "Mudança de posição: Deitada de costas",
+            "Deitada de costas",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
+          const SizedBox(height: 5),
           const Text(
               "⦁ Coloque um travesseiro fino e firme embaixo da cabeça da pessoa idosa de maneira que o pescoço fique no mesmo nível da coluna."),
+          const SizedBox(height: 3),
           const Text(
               "⦁ Coloque um travesseiro ou cobertor fino embaixo da panturrilha, assim diminui a pressão dos calcanhares sobre a cama."),
+          const SizedBox(height: 3),
           const Text(
               "⦁ Dobre os cotovelos levemente e coloque as mãos da pessoa idosa apoiadas nos quadris."),
+          const SizedBox(height: 3),
           const Text(
               "⦁ Mantenha as pernas da pessoa idosa esticadas e as pontas dos dedos voltadas para cima. Apoie os pés em uma almofada recostada na guarda final da cama, caso haja esta guarda."),
           const SizedBox(height: 10),
@@ -148,16 +163,21 @@ class MudancasScreen extends StatelessWidget {
               style: TextStyle(fontStyle: FontStyle.italic)),
           const SizedBox(height: 20),
           const Text(
-            "Mudança de posição: Deitada de lado",
+            "Deitada de lado",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
+          const SizedBox(height: 5),
           const Text("⦁ Coloque a pessoa idosa deitada de um dos lados."),
+          const SizedBox(height: 3),
           const Text(
               "⦁ Coloque um travesseiro fino sob a cabeça e o pescoço de modo que a cabeça fique alinhada com a coluna."),
+          const SizedBox(height: 3),
           const Text(
               "⦁ Escore as costas da pessoa idosa com um travesseiro maior, para evitar que ela vire de costas, e coloque outro travesseiro entre os braços da pessoa idosa para dar maior conforto."),
+          const SizedBox(height: 3),
           const Text(
               "⦁ A perna que fica por cima deve estar levemente dobrada e apoiada em um travesseiro, a fim de mantê-la no nível dos quadris."),
+          const SizedBox(height: 3),
           const Text(
               "⦁ Dobre levemente o joelho e coloque uma toalha dobrada, ou cobertor ou edredon fino, a fim de manter o tornozelo afastado do colchão."),
           const SizedBox(height: 10),
@@ -166,15 +186,19 @@ class MudancasScreen extends StatelessWidget {
               style: TextStyle(fontStyle: FontStyle.italic)),
           const SizedBox(height: 20),
           const Text(
-            "Mudança de posição: Deitada de bruços",
+            "Deitada de bruços",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
+          const SizedBox(height: 5),
           const Text(
               "⦁ Deite a pessoa idosa de bruços, vire a cabeça delicadamente para um dos lados acomodando-a com um travesseiro fino ou toalha dobrada."),
+          const SizedBox(height: 3),
           const Text(
               "⦁ Ajude a pessoa idosa a flexionar os braços para cima de modo que os cotovelos fiquem nivelados com os ombros."),
+          const SizedBox(height: 3),
           const Text(
               "⦁ Depois, coloque toalhas dobradas embaixo do peito e do estômago."),
+          const SizedBox(height: 3),
           const Text(
               "⦁ Por fim, ajeite as pernas apoiando os tornozelos e elevando os pés com uma toalha ou lençol enrolado."),
           const SizedBox(height: 10),
@@ -186,16 +210,22 @@ class MudancasScreen extends StatelessWidget {
             "Mudança da cama para a cadeira",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
+          const SizedBox(height: 5),
           const Text(
-              "⦁ Sempre que for possível, recomenda-se a mudança da pessoa idosa da cama para a cadeira. Entretanto, há de se considerar que quando a pessoa está há muitos dias deitada ou não consegue fazer a transferência sozinha, é preciso que o cuidador faça a mudança da posição deitada para sentada e depois em pé, pois a pessoa pode sentir fraqueza nas pernas, tonturas e vertigem ou até mesmo não conseguir movimentar as pernas."),
+              "Sempre que for possível, recomenda-se a mudança da pessoa idosa da cama para a cadeira. Entretanto, há de se considerar que quando a pessoa está há muitos dias deitada ou não consegue fazer a transferência sozinha, é preciso que o cuidador faça a mudança da posição deitada para sentada e depois em pé, pois a pessoa pode sentir fraqueza nas pernas, tonturas e vertigem ou até mesmo não conseguir movimentar as pernas. Recomenda-se os seguintes passos para esta transferência:"),
+          const SizedBox(height: 7),
           const Text(
               "⦁ Caso a cama tenha rodas e grades, as travar e abaixar, respectivamente. Após, mova as pernas da pessoa idosa para o lado, segurando-a com firmeza pelos ombros. Peça a pessoa idosa que se apoie firmemente nos braços e levante o corpo da cama. Com a pessoa idosa já sentada na cama, solicite a ela que apoie os dois pés no chão."),
+          const SizedBox(height: 3),
           const Text(
               "⦁ Para evitar que a pessoa idosa se desequilibre e caia, permaneça na frente dela enquanto ela se acostuma a ficar sentada e a movimentar as pernas."),
+          const SizedBox(height: 3),
           const Text(
               "⦁ Quando a pessoa idosa não mais se sentir tonta ou cansada, calce-lhe sapatos antiderrapantes, traga-a para a beira da cama, posicione seus pés firmemente no chão e peça-lhe para tentar se levantar, estando alerta para ajudá-la caso se desequilibre."),
+          const SizedBox(height: 3),
           const Text(
               "⦁ Se a pessoa idosa precisar de ajuda para ficar de pé, posicione-se de forma que os joelhos da pessoa idosa fiquem entre os seus. Então abaixe-se, flexionando levemente as pernas, passe os braços em volta da cintura da pessoa idosa e peça-lhe para a pessoa idosa dar impulso. Erga-se trazendo-a junto."),
+          const SizedBox(height: 3),
           const Text(
               "⦁ Guie a pessoa idosa até uma cadeira. Posicione-a de costas para a cadeira, com os joelhos flexionados e as costas eretas. Caso a cadeira tenha braços, peça à pessoa idosa para se apoiar nos braços da cadeira ao sentar. Caso ela não movimente o braço, é preciso que a poltrona ou cadeira onde essa pessoa vai se sentar tenha apoio lateral resistente para que o braço afetado possa ficar bem apoiado."),
           const SizedBox(height: 10),
@@ -207,6 +237,7 @@ class MudancasScreen extends StatelessWidget {
             "Atenção à Comunicação",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
+          const SizedBox(height: 5),
           const Text(
               "Converse com a pessoa idosa durante a mudança de posição, explicando o que será feito, mesmo que ele tenha limitações cognitivas. Essa comunicação promove uma sensação de cuidado e segurança."),
           const SizedBox(height: 10),
@@ -214,12 +245,12 @@ class MudancasScreen extends StatelessWidget {
             "Conforto e Bem-estar",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
+          const SizedBox(height: 5),
           const Text(
               "Além das mudanças de posição, incentive a pessoa idosa a realizar pequenas atividades que estejam ao seu alcance, como movimentar os braços ou pernas, sempre que possível. Essas pequenas ações auxiliam na circulação e no fortalecimento muscular."),
           const SizedBox(height: 10),
           const Text(
             "Cuidar da mobilidade da pessoa idosa é uma responsabilidade que exige atenção, paciência e carinho. Com práticas corretas e frequentes, é possível promover mais conforto e prevenir complicações graves.",
-            style: TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
           Image.asset("assets/images/orientacoes/Foto_mudanca_seis.png"),

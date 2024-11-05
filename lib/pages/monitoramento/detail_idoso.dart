@@ -4,6 +4,9 @@ import 'package:cuidar_ilpi/utils/app_colors.dart';
 import 'package:cuidar_ilpi/pages/monitoramento/acompanhamento/antecedentes_pessoais_page.dart';
 import 'package:cuidar_ilpi/pages/monitoramento/acompanhamento/medicacoes_page.dart';
 import 'package:cuidar_ilpi/pages/monitoramento/acompanhamento/necessidades_psicobiologicas_page.dart';
+import 'package:cuidar_ilpi/pages/monitoramento/acompanhamento/necessidades_psicossociais_page.dart';
+import 'package:cuidar_ilpi/pages/monitoramento/acompanhamento/espiritualidade_page.dart';
+import 'package:cuidar_ilpi/pages/monitoramento/acompanhamento/sinais_vitais_page.dart';
 
 class IdosoDetailPage extends StatelessWidget {
   final IdosoModelo idosoModelo;
@@ -158,7 +161,14 @@ class IdosoDetailPage extends StatelessWidget {
                         'SINAIS\nVITAIS',
                         Icons.favorite,
                         Colors.red,
-                        () {},
+                        () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SinaisVitaisPage(idoso: idosoModelo),
+                            ),
+                          );
+                        },
                       ),
                       _buildNavigationButton(
                         context,
@@ -179,14 +189,28 @@ class IdosoDetailPage extends StatelessWidget {
                         'NECESSIDADES\nPSICOSSOCIAIS',
                         Icons.people,
                         Colors.orange,
-                        () {},
+                        () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => NecessidadesPsicossociaisPage(idoso: idosoModelo),
+                            ),
+                          );
+                        },
                       ),
                       _buildNavigationButton(
                         context,
                         'NECESSIDADES\nPSICOESPIRITUAIS',
                         Icons.self_improvement,
                         Colors.teal,
-                        () {},
+                        () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EspiritualidadePage(idoso: idosoModelo),
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),

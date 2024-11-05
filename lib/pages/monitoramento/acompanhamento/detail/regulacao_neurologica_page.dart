@@ -413,20 +413,13 @@ class _ModalRegulacaoNeurologicaState extends State<ModalRegulacaoNeurologica> {
   }
 
   void _salvarAvaliacao() async {
-    if (nivelConscienciaSelecionado == null || memoriaSelecionada == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Por favor, preencha todos os campos')),
-      );
-      return;
-    }
-
     setState(() => isLoad = true);
 
     final avaliacao = RegulacaoNeurologicaModelo(
       id: widget.avaliacaoExistente?.id ?? const Uuid().v1(),
       idosoId: widget.idosoId,
-      nivelConsciencia: nivelConscienciaSelecionado!,
-      memoria: memoriaSelecionada!,
+      nivelConsciencia: nivelConscienciaSelecionado ?? '',
+      memoria: memoriaSelecionada ?? '',
       dataRegistro: DateTime.now(),
     );
 

@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegulacaoNeurologicaModelo {
-  final String id;
-  final String idosoId;
-  final String nivelConsciencia;
-  final String memoria;
-  final DateTime dataRegistro;
+  String id;
+  String idosoId;
+  String nivelConsciencia;
+  String memoria;
+  DateTime dataRegistro;
 
   RegulacaoNeurologicaModelo({
     required this.id,

@@ -5,18 +5,22 @@ import 'package:cuidar_ilpi/Orientacoes/conteudo/Mudancas.dart';
 import 'package:cuidar_ilpi/Orientacoes/conteudo/Sono.dart';
 import 'package:cuidar_ilpi/Orientacoes/conteudo/Vestuario.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:cuidar_ilpi/widgets/custom_app_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cuidar_ilpi/widgets/app_drawer.dart';
 class DailyActivitiesScreen extends StatelessWidget {
   const DailyActivitiesScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final User currentUser = FirebaseAuth.instance.currentUser!;
+    
     return Scaffold(
       backgroundColor: Colors.grey[100],
+      endDrawer: AppDrawer(user: currentUser),
       body: Column(
         children: [
-          _buildAppBar(context), // Reutiliza a AppBar
+          CustomAppBar(user: currentUser),
           const SizedBox(height: 10),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
@@ -142,43 +146,6 @@ class DailyActivitiesScreen extends StatelessWidget {
     );
   }
 
-  // Reutiliza a AppBar da tela principal
-  Widget _buildAppBar(BuildContext context) { // Adicionado parâmetro context
-    return Container(
-      height: 100,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: const BorderRadius.vertical(
-          bottom: Radius.circular(32),
-        ),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            margin: const EdgeInsets.only(top: 15),
-            child: Image.asset(
-              "assets/images/orientacoes/logo_orientacoes_.png",
-              height: 50,
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: 10),
-            child: IconButton(
-              icon: SvgPicture.asset(
-                "assets/images/home/burger_icon.svg",
-                height: 30,
-              ),
-              onPressed: ()  { 
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   // Função que cria botões verdes
   Widget _buildButton(
     BuildContext context,
@@ -188,7 +155,7 @@ class DailyActivitiesScreen extends StatelessWidget {
     VoidCallback? onTap,
   }) {
     return GestureDetector(
-      onTap: onTap ?? () => print("$title clicado!") ,// Ação do clique
+      onTap: onTap ?? () => print("$title clicado!"), // Ação do clique
       child: Container(
         height: 60,
         decoration: BoxDecoration(

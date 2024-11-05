@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:cuidar_ilpi/services/autentification_service.dart';
+import 'package:cuidar_ilpi/widgets/app_drawer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+  final User user;
+  const MyHomePage({super.key, required this.user});
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -13,78 +15,92 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    // Obtém as dimensões da tela
+    final screenSize = MediaQuery.of(context).size;
+    final isSmallScreen = screenSize.height < 600;
+
     return Scaffold(
+      endDrawer: AppDrawer(user: widget.user),
       backgroundColor: Colors.grey[100],
-      body: Column(
-        children: [
-          _buildAppBar(), // AppBar com bordas arredondadas
-          const SizedBox(height: 35), // Pequeno espaçamento abaixo da AppBar
-          _buildWideButton(
-            context,
-            "Perfil do Usuário",
-            "assets/images/home/Icone_Perfil.svg",
-            const Color(0xFFF9AAAA), // Cor do botão perfil
-            '/monitoramento',
+      body: SafeArea(  // Adiciona SafeArea
+        child: SingleChildScrollView(  // Permite rolagem
+          child: Column(
+            children: [
+              _buildAppBar(),
+              SizedBox(height: isSmallScreen ? 15 : 35),
+              _buildWideButton(
+                context,
+                "Perfil do Usuário",
+                "assets/images/home/Icone_Perfil.svg",
+                const Color(0xFFF9AAAA),
+                '/profile',
+              ),
+              SizedBox(height: isSmallScreen ? 5 : 10),
+              // Grid responsivo
+              GridView.count(
+                shrinkWrap: true,  // Importante para funcionar dentro do SingleChildScrollView
+                physics: const NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                crossAxisCount: screenSize.width < 600 ? 2 : 3,  // Adapta número de colunas
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: screenSize.width < 600 ? 0.85 : 1.2,  // Ajusta proporção dos cards
+                children: [
+                  categoryCard(
+                    context,
+                    "Monitoramento de Saúde da Pessoa Idosa",
+                    "assets/images/home/Icone_Monitoramento.svg",
+                    const Color(0xFFFAE3DD), // Cor do botão monitoramento
+                    '/monitoramento',
+                  ),
+                  categoryCard(
+                    context,
+                    "Orientações para Atividades da Vida Diária",
+                    "assets/images/home/Icone_Orientações.svg",
+                    const Color(0xFFCAE5D1), // Cor do botão orientações
+                    '/daily_activities',
+                  ),
+                  categoryCard(
+                    context,
+                    "Segurança do Cuidado à Pessoa Idosa",
+                    "assets/images/home/Icone_Seguranca.svg",
+                    const Color(0xFFFFDA8F), // Cor do botão segurança
+                    '/safety',
+                  ),
+                  categoryCard(
+                    context,
+                    "Funcionalidade Global da Pessoa Idosa",
+                    "assets/images/home/Icone_Funcionalidade.svg",
+                    const Color(0xFFD3E6F2), // Cor do botão funcionalidade
+                    '/fun',
+                  ),
+                ],
+              ),
+              const SizedBox(
+                  height: 10), // Pequeno espaço acima do botão de referências
+              _buildWideButtonWithSubtitle(
+                context,
+                "Referências Bibliográficas",
+                "Consultadas",
+                "assets/images/home/Icone_Referencias.svg",
+                const Color(0xFFE0C7F9), // Cor do botão referências
+                '/references',
+              ),
+              const SizedBox(height: 38), // Margem inferior
+            ],
           ),
-          const SizedBox(height: 10), // Espaçamento entre perfil e grid
-          Expanded(
-            child: GridView.count(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              crossAxisCount: 2,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              children: [
-                categoryCard(
-                  context,
-                  "Monitoramento de Saúde da Pessoa Idosa",
-                  "assets/images/home/Icone_Monitoramento.svg",
-                  const Color(0xFFFAE3DD), // Cor do botão monitoramento
-                  '/monitoring',
-                ),
-                categoryCard(
-                  context,
-                  "Orientações para Atividades da Vida Diária",
-                  "assets/images/home/Icone_Orientações.svg",
-                  Color(0xFFCAE5D1), // Cor do botão orientações
-                  '/daily_activities',
-                ),
-                categoryCard(
-                  context,
-                  "Segurança do Cuidado à Pessoa Idosa",
-                  "assets/images/home/Icone_Seguranca.svg",
-                  const Color(0xFFFFDA8F), // Cor do botão segurança
-                  '/safety',
-                ),
-                categoryCard(
-                  context,
-                  "Funcionalidade Global da Pessoa Idosa",
-                  "assets/images/home/Icone_Funcionalidade.svg",
-                  const Color(0xFFD3E6F2), // Cor do botão funcionalidade
-                  '/fun',
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-              height: 10), // Pequeno espaço acima do botão de referências
-          _buildWideButtonWithSubtitle(
-            context,
-            "Referências Bibliográficas",
-            "Consultadas",
-            "assets/images/home/Icone_Referencias.svg",
-            const Color(0xFFE0C7F9), // Cor do botão referências
-            '/references',
-          ),
-          const SizedBox(height: 38), // Margem inferior
-        ],
+        ),
       ),
     );
   }
 
-  // AppBar com bordas arredondadas
+  // Atualiza AppBar para ser responsiva
   Widget _buildAppBar() {
+    final screenSize = MediaQuery.of(context).size;
+    final isSmallScreen = screenSize.height < 600;
+
     return Container(
-      height: 100,
+      height: isSmallScreen ? 70 : 100,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.vertical(
@@ -107,15 +123,17 @@ class _MyHomePageState extends State<MyHomePage> {
           Container(
             margin: const EdgeInsets.only(
                 top: 10), // Ajusta o espaço acima do ícone
-            child: IconButton(
-              icon: SvgPicture.asset(
-                "assets/images/home/burger_icon.svg",
-                height: 30,
-              ),
-              onPressed: () {
-                print("Menu aberto!");
-                AutentificationService().islogout();
-                //Navigator.pushReplacementNamed(context, '/login');
+            child: Builder(
+              builder: (BuildContext context) {
+                return IconButton(
+                  icon: SvgPicture.asset(
+                    "assets/images/home/burger_icon.svg",
+                    height: 30,
+                  ),
+                  onPressed: () {
+                    Scaffold.of(context).openEndDrawer();
+                  },
+                );
               },
             ),
           ),
@@ -124,16 +142,19 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  // Botão largo (Perfil e Referências)
+  // Atualiza botão largo para ser responsivo
   Widget _buildWideButton(BuildContext context, String title, String iconPath,
       Color color, String route) {
+    final screenSize = MediaQuery.of(context).size;
+    final isSmallScreen = screenSize.height < 600;
+
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, route);
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16),
-        height: 80,
+        height: isSmallScreen ? 60 : 80,
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(12),
@@ -143,11 +164,10 @@ class _MyHomePageState extends State<MyHomePage> {
               MainAxisAlignment.spaceBetween, // Espaça o ícone e o texto
           children: [
             Padding(
-              padding: const EdgeInsets.only(
-                  left: 3.0), // Espaçamento à esquerda do ícone
+              padding: const EdgeInsets.only(left: 3.0),
               child: SvgPicture.asset(
                 iconPath,
-                height: 90,
+                height: isSmallScreen ? 70 : 90,
               ),
             ),
             Padding(

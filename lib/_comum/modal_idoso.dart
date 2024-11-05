@@ -47,6 +47,9 @@ class _ModalIdosoState extends State<ModalIdoso> {
 
   final IdosoService _idosoService = IdosoService();
 
+  // Adicione esta chave para o formulário
+  final _formKey = GlobalKey<FormState>();
+
 //fazendo para o update
   @override
   void initState() {
@@ -72,6 +75,7 @@ class _ModalIdosoState extends State<ModalIdoso> {
       padding: const EdgeInsets.all(24.0),
       height: MediaQuery.of(context).size.height * 0.9,
       child: Form(
+        key: _formKey,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -241,6 +245,12 @@ class _ModalIdosoState extends State<ModalIdoso> {
         keyboardType: keyboardType,
         inputFormatters: inputFormatters,
         maxLines: maxLines,
+        validator: label == 'Nome' ? (value) {
+          if (value == null || value.trim().isEmpty) {
+            return 'Nome é obrigatório';
+          }
+          return null;
+        } : null,
         decoration: InputDecoration(
           labelText: label,
           prefixIcon: Icon(icon, color: Colors.white70),
@@ -251,6 +261,18 @@ class _ModalIdosoState extends State<ModalIdoso> {
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.white),
+            borderRadius: BorderRadius.circular(15),
+          ),
+          errorStyle: TextStyle(
+            color: const Color.fromARGB(255, 255, 0, 0),
+            fontSize: 12,
+          ),
+          errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: const Color.fromARGB(255, 255, 0, 0)!),
+            borderRadius: BorderRadius.circular(15),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: const Color.fromARGB(255, 255, 0, 0)!),
             borderRadius: BorderRadius.circular(15),
           ),
         ),
@@ -337,10 +359,101 @@ class _ModalIdosoState extends State<ModalIdoso> {
     );
   }
 
-enviarClicado() {
-  setState(() {
-    isLoad = true;
-  });
+  enviarClicado() async {
+    // Primeiro verifica se o nome está preenchido
+    if (nomeController.text.trim().isEmpty) {
+      await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: AppColors.primary,
+            title: Text(
+              'Campo obrigatório',
+              style: TextStyle(color: Colors.white),
+            ),
+            content: Text(
+              'O nome da pessoa idosa é obrigatório para o cadastro.',
+              style: TextStyle(color: Colors.white),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text(
+                  'OK',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+          );
+        },
+      );
+      return;
+    }
+
+    // Verifica se há outros campos vazios
+    bool temCamposVazios = [
+      nascimentoController,
+      idadeController,
+      sexoController,
+      religiaoController,
+      escolaridadeController,
+      ocupacaoAnteriorController,
+      aposentadoController,
+      dataInstitucionalizacaoController,
+      motivoInstitucionalizacaoController,
+      possuiFamiliaresController,
+    ].any((controller) => controller.text.trim().isEmpty);
+
+    if (temCamposVazios) {
+      bool? deveContinar = await showDialog<bool>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: AppColors.primary,
+            title: Text(
+              'Campos não preenchidos',
+              style: TextStyle(color: Colors.white),
+            ),
+            content: Text(
+              'Existem campos não preenchidos. Deseja continuar mesmo assim?',
+              style: TextStyle(color: Colors.white),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text(
+                  'Cancelar',
+                  style: TextStyle(color: Colors.white70),
+                ),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: Text(
+                  'Continuar',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+          );
+        },
+      );
+
+      // Se o usuário cancelou ou fechou o diálogo
+      if (deveContinar != true) {
+        return;
+      }
+    }
+
+    // Continua com o salvamento
+    setState(() {
+      isLoad = true;
+    });
 
     String nome = nomeController.text;
     String nascimento = nascimentoController.text;

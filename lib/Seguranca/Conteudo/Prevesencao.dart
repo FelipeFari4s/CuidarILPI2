@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cuidar_ilpi/widgets/app_drawer.dart';
+import 'package:cuidar_ilpi/widgets/custom_app_bar.dart';
 
 class PrevensaoScreen extends StatelessWidget {
   const PrevensaoScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final User currentUser = FirebaseAuth.instance.currentUser!;
+    
     return Scaffold(
       backgroundColor: const Color(0xFFFFF4E1),
+      endDrawer: AppDrawer(user: currentUser),
       body: Column(
         children: [
-          _buildAppBar(), // AppBar personalizada
+          CustomAppBar(user: currentUser),
           const SizedBox(height: 10),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
@@ -162,22 +168,22 @@ class PrevensaoScreen extends StatelessWidget {
           const SizedBox(height: 10),
           const Text(
             "As infecções mais comuns entre as pessoas idosas residentes são:",
-            style: TextStyle(fontWeight: FontWeight.bold),
           ),
+          const SizedBox(height: 10),
           const Text("⦁ Infecção do trato urinário (ITU);"),
           const Text("⦁ Pneumonia;"),
           const Text("⦁ Gastroenterite;"),
           const Text("⦁ Infecções de pele e partes moles."),
-          const SizedBox(height: 10),
           Image.asset("assets/images/seguranca/Foto_cinco_segun.png"),
           const Text("Fonte: www.freepik.com"),
-          const SizedBox(height: 10),
+          const SizedBox(height: 15),
           const Text(
             "Fatores que aumentam o risco de infecção nas ILPIs",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
-          const Text(" Fatores relacionados às pessoas idosas:"),
+          const Text(" - Fatores relacionados às pessoas idosas:"),
+          const SizedBox(height: 10),
           const Text("o Idade avançada;"),
           const Text("o Desnutrição;"),
           const Text(
@@ -187,7 +193,8 @@ class PrevensaoScreen extends StatelessWidget {
           const Text(
               "o Dispositivos invasivos (como cateteres urinários ou sondas nasogástricas)."),
           const SizedBox(height: 10),
-          const Text(" Fatores relacionados ao ambiente institucional:"),
+          const Text(" - Fatores relacionados ao ambiente institucional:"),
+          const SizedBox(height: 10),
           const Text("o Contato próximo entre residentes e profissionais;"),
           const Text("o Instalações com pouca ventilação;"),
           const Text("o Limpeza inadequada de alimentos, objetos e ambientes."),
@@ -205,15 +212,23 @@ class PrevensaoScreen extends StatelessWidget {
         children: [
           const Text(
               "As infecções em pessoas idosas muitas vezes se manifestam de maneira atípica, com sintomas que diferem dos padrões comuns. Alguns sinais de alerta incluem:"),
+          const SizedBox(height: 10),
           const Text("⦁ Alterações na função cognitiva;"),
+          const SizedBox(height: 3),
           const Text(
               "⦁ Declínio na capacidade funcional e nas condições físicas;"),
+          const SizedBox(height: 3),
           const Text(
               "⦁ Descompensação de doenças crônicas, como diabetes ou insuficiência cardíaca;"),
+          const SizedBox(height: 3),
           const Text("⦁ Aumento da confusão mental;"),
+          const SizedBox(height: 3),
           const Text("⦁ Aparecimento de incontinência urinária;"),
+          const SizedBox(height: 3),
           const Text("⦁ Quedas;"),
+          const SizedBox(height: 3),
           const Text("⦁ Piora da mobilidade e do equilíbrio;"),
+          const SizedBox(height: 3),
           const Text(
               "⦁ Falta de cooperação com a reabilitação ou tratamentos."),
           const SizedBox(height: 10),
@@ -221,38 +236,47 @@ class PrevensaoScreen extends StatelessWidget {
             "Temperatura corporal e infecção",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
+          const SizedBox(height: 10),
           const Text(
               "Em pessoas idosas, a febre pode não se manifestar da forma usual. É importante medir a temperatura basal na admissão ou em momentos de estabilidade clínica, pois a febre em pessoas idosas frágeis pode ser diagnosticada com um aumento de apenas 1,1°C em relação à sua temperatura basal. Por exemplo, se a temperatura basal for 35°C, uma elevação para 36,1°C já pode indicar febre."),
-          const SizedBox(height: 10),
           Image.asset("assets/images/seguranca/Foto_seis_segun.png"),
           const Text("Fonte: www.freepik.com"),
-          const SizedBox(height: 10),
+          const SizedBox(height: 15),
           const Text(
             "Prevenção e controle de infecções nas ILPIs",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
+          const SizedBox(height: 10),
           const Text(
               "Prevenir e controlar infecções nas ILPIs é fundamental para garantir uma melhor assistência às pessoas idosas residentes. Esse processo deve envolver:"),
+          const SizedBox(height: 10),
           const Text(
               "⦁ Profissionais de saúde, especialmente aqueles que prestam cuidado direto;"),
+          const SizedBox(height: 3),
           const Text("⦁ Pessoas idosas residentes;"),
+          const SizedBox(height: 3),
           const Text(
               "⦁ Visitantes, que também desempenham um papel na prevenção."),
+          const SizedBox(height: 10),
           const Text(
               "Cada ILPI deve seguir um protocolo de precauções e manter registros e monitoramento mensal das infecções."),
+          const SizedBox(height: 10),
           const Text(
               "A vacinação tanto dos residentes quanto dos profissionais, conforme o Plano Nacional de Imunização, também é crucial."),
-          const SizedBox(height: 10),
           Image.asset("assets/images/seguranca/Foto_sete_segun.png"),
           const Text("Fonte: www.freepik.com"),
-          const SizedBox(height: 10),
+          const SizedBox(height: 15),
           const Text(
             "Objetivos do controle e prevenção de infecções",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
+          const SizedBox(height: 10),
           const Text("⦁ Reduzir a morbimortalidade causada por infecções;"),
+          const SizedBox(height: 3),
           const Text("⦁ Prevenir surtos dentro da ILPI;"),
+          const SizedBox(height: 3),
           const Text("⦁ Proteger os profissionais da instituição;"),
+          const SizedBox(height: 3),
           const Text(
               "⦁ Reduzir os custos associados às infecções e ao uso de antimicrobianos."),
           const SizedBox(height: 10),
@@ -274,34 +298,39 @@ class PrevensaoScreen extends StatelessWidget {
             "Importância da higienização das mãos",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
+          const SizedBox(height: 10),
           const Text(
               "A prática correta de lavar as mãos é a medida mais eficiente para prevenir Infecções Relacionadas à Assistência à Saúde (IRAS). A equipe multiprofissional que trabalha nas ILPIs tem a responsabilidade direta de garantir a segurança das pessoas idosas, principalmente no combate a essas infecções, que podem ter graves consequências. Vale salientar que, assim como os profissionais de saúde e os cuidadores, as próprias pessoas idosas residentes também devem ser encorajadas a manter sempre as mãos higienizadas."),
-          const SizedBox(height: 10),
           Image.asset("assets/images/seguranca/Foto_oito_segun.png"),
           const Text("Fonte: www.freepik.com"),
-          const SizedBox(height: 10),
+          const SizedBox(height: 15),
           const Text(
             "Quatro momentos fundamentais para higienizar as mãos",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
+          const SizedBox(height: 10),
           const Text(
               "De acordo com a Organização Mundial da Saúde (OMS), os profissionais de saúde e cuidadores que atuam em ILPIs devem higienizar as mãos em quatro momentos-chave:"),
+          const SizedBox(height: 10),
           const Text(
               "1. Antes de tocar a pessoa idosa – Isso ajuda a evitar a transmissão de microrganismos do cuidador para o residente."),
+          const SizedBox(height: 3),
           const Text(
               "2. Antes de realizar procedimentos limpos/assépticos – Garante que as mãos estejam livres de microrganismos prejudiciais antes de procedimentos que requerem limpeza rigorosa."),
+          const SizedBox(height: 3),
           const Text(
               "3. Após o risco de exposição a fluidos corporais – Impede a transmissão de patógenos após o contato com fluidos corporais, como sangue ou secreções."),
+          const SizedBox(height: 3),
           const Text(
               "4. Após tocar a pessoa idosa – Previne que microrganismos da pele da pessoa idosa sejam levados a outros locais ou pessoas."),
-          const SizedBox(height: 10),
           Image.asset("assets/images/seguranca/Foto_novo_segun.png"),
           const Text("Fonte: www.freepik.com"),
-          const SizedBox(height: 10),
+          const SizedBox(height: 15),
           const Text(
             "Garantia de Segurança",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
+          const SizedBox(height: 10),
           const Text(
               "Adotar essas práticas de forma regular e consciente é essencial para manter a segurança das pessoas idosas institucionalizadas, reduzindo o risco de infecções e contribuindo para um ambiente mais seguro e saudável nas ILPIs. A higienização correta das mãos é, portanto, uma responsabilidade compartilhada entre todos os profissionais de saúde e cuidadores."),
           const Text(
@@ -309,7 +338,6 @@ class PrevensaoScreen extends StatelessWidget {
           const SizedBox(height: 10),
           const Text(
               "Abaixo, segue o passo a passo de como higienizar corretamente as mãos:"),
-          const SizedBox(height: 10),
           Image.asset("assets/images/seguranca/Foto_vinteseis_segun (1).png"),
           const Text("Fonte: ANVISA. Disponível em:"),
           const Text(

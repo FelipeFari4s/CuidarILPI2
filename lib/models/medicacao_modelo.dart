@@ -1,23 +1,51 @@
 class MedicacaoModelo {
-  final String id;
-  final String idIdoso;
-  final String nome;
-  final String dosagem;
-  final String via;
-  final String horario;
-  bool checado;
+  String id;
+  String idosoId;
+  String nome;
+  String dose;
+  String via;
+  List<String> horarios;
+  DateTime dataRegistro;
+  bool checagem;
   String observacao;
-  final DateTime data;
 
   MedicacaoModelo({
     required this.id,
-    required this.idIdoso,
+    required this.idosoId,
     required this.nome,
-    required this.dosagem,
+    required this.dose,
     required this.via,
-    required this.horario,
-    this.checado = false,
+    required this.horarios,
+    required this.dataRegistro,
+    this.checagem = false,
     this.observacao = '',
-    required this.data,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'idosoId': idosoId,
+      'nome': nome,
+      'dose': dose,
+      'via': via,
+      'horarios': horarios,
+      'dataRegistro': dataRegistro.toIso8601String(),
+      'checagem': checagem,
+      'observacao': observacao,
+    };
+  }
+
+  factory MedicacaoModelo.fromMap(Map<String, dynamic> map) {
+    return MedicacaoModelo(
+      id: map['id'] ?? '',
+      idosoId: map['idosoId'] ?? '',
+      nome: map['nome'] ?? '',
+      dose: map['dose'] ?? '',
+      via: map['via'] ?? '',
+      horarios: List<String>.from(map['horarios'] ?? []),
+      dataRegistro: DateTime.parse(map['dataRegistro']),
+      checagem: map['checagem'] ?? false,
+      observacao: map['observacao'] ?? '',
+    );
+  }
 } 

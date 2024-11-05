@@ -17,6 +17,7 @@ class _signUpScreenState extends State<signUpScreen> {
   int _experienceYears = 0;
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
+  bool _isLoading = false;
 
   // Controllers para os campos de texto
   final TextEditingController nameController = TextEditingController();
@@ -191,7 +192,7 @@ class _signUpScreenState extends State<signUpScreen> {
                   if (value == null || value.isEmpty) {
                     return 'Por favor, insira uma senha';
                   }
-                  // Validação da senha
+                  // Validaão da senha
                   if (value.length < 6) {
                     return 'A senha deve ter pelo menos 6 caracteres';
                   }
@@ -317,31 +318,12 @@ class _signUpScreenState extends State<signUpScreen> {
                 padding: EdgeInsets.symmetric(horizontal: width * 0.2),
                 child: CustomButton(
                   color: const Color.fromARGB(255, 0, 0, 0),
-                  text: "Continuar",
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Se a validação passar
-                      _autentificationService.cadastrarUsuario(
-                        nome: nameController.text,
-                        email: emailController.text,
-                        senha: passwordController.text,
-                        telefone: phoneController.text,
-                        genero: _selectedGender ?? '',
-                        categoria: _selectedCategory ?? '',
-                        anosExperiencia: _experienceYears,
-                      ).then((erro) {
-                        // Corrigido a verificação de erro
-                        if (erro == null) { // Verifique se o erro é null para sucesso
-                          print('Cadastro bem-sucedido');
-                          mostrarSnackbar(context: context, mensagem: 'Cadastro bem-sucedido', isError: false); // Alterado para isError: false
-                          // Navegue para a próxima tela ou faça o que for necessário
-                        } else {
-                          print('Erro ao cadastrar: $erro');
-                          mostrarSnackbar(context: context, mensagem: 'Erro ao cadastrar: $erro', isError: true);
-                        }
-                      });
-                    }
-                  },
+                  text: _isLoading ? "Carregando..." : "Continuar",
+                  onPressed: _isLoading 
+                    ? () {} // função vazia quando estiver carregando
+                    : () {
+                        _handleSignUp();
+                      },
                 ),
               ),
             ),
@@ -367,5 +349,35 @@ class _signUpScreenState extends State<signUpScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _handleSignUp() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() => _isLoading = true);
+      
+      try {
+        final erro = await _autentificationService.cadastrarUsuario(
+          nome: nameController.text,
+          email: emailController.text,
+          senha: passwordController.text,
+          telefone: phoneController.text,
+          genero: _selectedGender ?? '',
+          categoria: _selectedCategory ?? '',
+          anosExperiencia: _experienceYears,
+        );
+        if (erro == null) {
+          mostrarSnackbar(context: context, mensagem: 'Cadastro bem-sucedido', isError: false);
+          // Fecha a tela atual e navega para home
+          Navigator.of(context).pop();
+          Navigator.of(context).pushReplacementNamed('/home');
+        } else {
+          mostrarSnackbar(context: context, mensagem: 'Erro ao cadastrar: $erro', isError: true);
+        }
+      } catch (e) {
+        mostrarSnackbar(context: context, mensagem: 'Erro ao cadastrar: $e', isError: true);
+      } finally {
+        setState(() => _isLoading = false);
+      }
+    }
   }
 }
