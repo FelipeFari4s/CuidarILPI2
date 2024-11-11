@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cuidar_ilpi/pages/longinEsingUp_screen/widgets/custom_button.dart';
 import 'package:cuidar_ilpi/_comum/my_snackbar.dart';
 import 'package:cuidar_ilpi/services/autentification_service.dart';
+import 'package:cuidar_ilpi/services/forget_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -128,12 +129,20 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(height: height * 0.02),
             Container(
               alignment: Alignment.center,
-              child: const Text(
-                " Esqueceu a senha? ",
-                style: TextStyle(
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ForgetPasswordScreen()),
+                  );
+                },
+                child: const Text(
+                  "Esqueceu a senha?",
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 12,
                     color: Colors.blue),
+                ),
               ),
             ),
             SizedBox(height: height * 0.035),

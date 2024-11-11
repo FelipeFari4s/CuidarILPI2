@@ -61,14 +61,24 @@ class AutentificationService {
     required String senha,
   }) async {
     try {
+      print('Tentando fazer login com email: $email'); // Log para debug
       await _firebaseAuth.signInWithEmailAndPassword(email: email, password: senha);
-      return null; // Login bem-sucedido
+      print('Login realizado com sucesso'); // Log para debug
+      return null;
     } on FirebaseAuthException catch (e) {
-      print('Código de erro: ${e.code}'); // Para depuração
-      // Retorna uma mensagem genérica para erros de login
-      return 'Email ou senha inválida';
+      print('Erro FirebaseAuth: ${e.code} - ${e.message}'); // Log detalhado
+      switch (e.code) {
+        case 'user-not-found':
+          return 'Usuário não encontrado';
+        case 'wrong-password':
+          return 'Senha incorreta';
+        case 'invalid-email':
+          return 'Email inválido';
+        default:
+          return 'Erro ao fazer login: ${e.message}';
+      }
     } catch (e) {
-      print('Erro: $e'); // Captura qualquer outro erro
+      print('Erro genérico: $e'); // Log para erro genérico
       return 'Erro ao tentar fazer login';
     }
   }

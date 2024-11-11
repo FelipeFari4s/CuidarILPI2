@@ -11,27 +11,33 @@ class AppDrawer extends StatelessWidget {
     required IconData icon,
     required String title,
     required VoidCallback onTap,
+    Color? backgroundColor,
+    bool isMainButton = false,
   }) {
-    return ListTile(
-      leading: Icon(
-        icon,
-        color: Colors.grey[800],
-        size: 24,
-      ),
-      title: Text(
-        title,
-        style: TextStyle(
-          color: Colors.grey[800],
-          fontSize: 16,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      child: ListTile(
+        leading: Icon(
+          icon,
+          color: isMainButton ? const Color(0xFF707070) : Colors.grey[800],
+          size: 24,
         ),
+        title: Text(
+          title,
+          style: TextStyle(
+            color: isMainButton ? const Color(0xFF707070) : Colors.grey[800],
+            fontSize: 14,
+            fontWeight: isMainButton ? FontWeight.bold : FontWeight.normal,
+          ),
+        ),
+        onTap: onTap,
+        dense: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        tileColor: backgroundColor ?? Colors.transparent,
+        hoverColor: Colors.grey[100],
       ),
-      onTap: onTap,
-      dense: true,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      tileColor: Colors.transparent,
-      hoverColor: Colors.grey[100],
     );
   }
 
@@ -39,19 +45,15 @@ class AppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Container(
-        color: Colors.white,
+        color: Colors.grey[100],
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Theme.of(context).primaryColor,
-                    Theme.of(context).primaryColor.withOpacity(0.8),
-                  ],
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(32),
                 ),
               ),
               child: Column(
@@ -59,7 +61,7 @@ class AppDrawer extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 35,
-                    backgroundColor: Colors.white,
+                    backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
                     child: CircleAvatar(
                       radius: 32,
                       backgroundImage: AssetImage("assets/icons/app/logoApp.png"),
@@ -69,7 +71,7 @@ class AppDrawer extends StatelessWidget {
                   Text(
                     (user.displayName != null) ? user.displayName! : "Usuário",
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Color(0xFF707070),
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -78,7 +80,7 @@ class AppDrawer extends StatelessWidget {
                   Text(
                     user.email!,
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.9),
+                      color: Color(0xFF707070).withOpacity(0.8),
                       fontSize: 14,
                     ),
                   ),
@@ -86,32 +88,46 @@ class AppDrawer extends StatelessWidget {
               ),
             ),
             _buildDrawerItem(
-              icon: Icons.dashboard,
-              title: 'Dashboard',
-              onTap: () {
-                // Navegação para Dashboard
-              },
+              icon: Icons.person,
+              title: 'Perfil do Usuário',
+              backgroundColor: Color(0xFFF9AAAA).withOpacity(0.7),
+              isMainButton: true,
+              onTap: () => Navigator.pushNamed(context, '/profile'),
             ),
             _buildDrawerItem(
-              icon: Icons.people,
-              title: 'Gerenciar Idosos',
-              onTap: () {
-                Navigator.pop(context);
-              },
+              icon: Icons.health_and_safety,
+              title: 'Monitoramento de Saúde',
+              backgroundColor: Color(0xFFFAE3DD).withOpacity(0.7),
+              isMainButton: true,
+              onTap: () => Navigator.pushNamed(context, '/monitoramento'),
             ),
             _buildDrawerItem(
-              icon: Icons.calendar_today,
-              title: 'Agenda',
-              onTap: () {
-                // Navegação para Agenda
-              },
+              icon: Icons.accessibility_new,
+              title: 'Atividades Diárias',
+              backgroundColor: Color(0xFFCAE5D1).withOpacity(0.7),
+              isMainButton: true,
+              onTap: () => Navigator.pushNamed(context, '/daily_activities'),
             ),
             _buildDrawerItem(
-              icon: Icons.notifications,
-              title: 'Notificações',
-              onTap: () {
-                // Navegação para Notificações
-              },
+              icon: Icons.security,
+              title: 'Segurança do Cuidado',
+              backgroundColor: Color(0xFFFFDA8F).withOpacity(0.7),
+              isMainButton: true,
+              onTap: () => Navigator.pushNamed(context, '/safety'),
+            ),
+            _buildDrawerItem(
+              icon: Icons.elderly,
+              title: 'Funcionalidade Global',
+              backgroundColor: Color(0xFFD3E6F2).withOpacity(0.7),
+              isMainButton: true,
+              onTap: () => Navigator.pushNamed(context, '/fun'),
+            ),
+            _buildDrawerItem(
+              icon: Icons.library_books,
+              title: 'Referências Bibliográficas',
+              backgroundColor: Color(0xFFE0C7F9).withOpacity(0.7),
+              isMainButton: true,
+              onTap: () => Navigator.pushNamed(context, '/references'),
             ),
             Divider(color: Colors.grey.withOpacity(0.3)),
             _buildDrawerItem(

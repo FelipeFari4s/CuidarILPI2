@@ -51,11 +51,11 @@ class _DialogMedicacaoState extends State<DialogMedicacao> {
         style: TextStyle(color: AppColors.primary),
       ),
       content: SingleChildScrollView(
-        child: Form(
+        child: Form( 
           key: _formKey,
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: [
+            children: [ SizedBox(height: 16),
               TextFormField(
                 controller: _nomeController,
                 decoration: InputDecoration(
@@ -157,11 +157,15 @@ class _DialogMedicacaoState extends State<DialogMedicacao> {
                               color: _checagem ? Colors.green : Colors.orange,
                             ),
                             SizedBox(width: 12),
-                            Text(
-                              _checagem ? 'Medicação Administrada' : 'Pendente',
-                              style: TextStyle(
-                                color: _checagem ? Colors.green : Colors.orange,
-                                fontWeight: FontWeight.w500,
+                            Expanded(
+                              child: Text(
+                                _checagem ? 'Medicação Administrada' : 'Pendente',
+                                style: TextStyle(
+                                  color: _checagem ? Colors.green : Colors.orange,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                overflow: TextOverflow.visible,
+                                maxLines: 2,
                               ),
                             ),
                           ],

@@ -80,15 +80,21 @@ class _ModalSensopercepcaoState extends State<ModalSensopercepcao> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Avaliação de Sensopercepção',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+              Expanded(
+                child: Text(
+                  'Avaliação de Sensopercepção',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                  overflow: TextOverflow.visible,
+                  maxLines: 2,
                 ),
               ),
               IconButton(
+                padding: EdgeInsets.all(8),
+                constraints: BoxConstraints(),
                 onPressed: () => Navigator.pop(context),
                 icon: Icon(Icons.close, color: Colors.white),
               ),

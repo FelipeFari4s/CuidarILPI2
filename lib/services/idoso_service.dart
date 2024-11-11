@@ -27,7 +27,7 @@ class IdosoService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> createIdoso(IdosoModelo idosoModelo) async {
-    await _firestore.collection(userId).doc(idosoModelo.id).set(idosoModelo.toMap());
+    //await _firestore.collection(userId).doc(idosoModelo.id).set(idosoModelo.toMap());
     await _firestore.collection('usuarios').doc(userId).collection('idosos').doc(idosoModelo.id).set(idosoModelo.toMap());
   }
 

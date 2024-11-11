@@ -34,13 +34,16 @@ class _MonitoringScreenState extends State<MonitoringScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  "Monitoramento de Pessoas Idosas",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xFF707070),
-                    fontFamily: 'Roboto',
+                Expanded(
+                  child: Text(
+                    "Monitoramento de Pessoas Idosas",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xFF707070),
+                      fontFamily: 'Roboto',
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 IconButton(
@@ -139,13 +142,22 @@ class _MonitoringScreenState extends State<MonitoringScreen> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: AppColors.primary,
-        onPressed: () {
-          mostrarModal(context);
-        },
-        label: const Text('Adicionar pessoa idosa'),
-        icon: const Icon(Icons.add),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: SizedBox(
+          width: double.infinity,
+          child: FloatingActionButton.extended(
+            backgroundColor: AppColors.primary,
+            onPressed: () {
+              mostrarModal(context);
+            },
+            label: const Text(
+              'Adicionar pessoa idosa',
+              style: TextStyle(fontSize: 14),
+            ),
+            icon: const Icon(Icons.add),
+          ),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );

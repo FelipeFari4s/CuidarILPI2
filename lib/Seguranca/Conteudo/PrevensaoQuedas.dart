@@ -348,7 +348,7 @@ class PrevenQuedasScreen extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
-          Image.asset("assets/images/seguranca/segun.png"),
+          Image.asset("assets/images/seguranca/escala_morse.png"),
           const SizedBox(height: 10),
           const Text(
             "Exemplo de Estratégias Preventivas Baseadas na Pontuação dos Instrumentos:",

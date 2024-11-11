@@ -96,8 +96,8 @@ class NecessidadesPsicossociaisPage extends StatelessWidget {
         onTap: onPressed,
         borderRadius: BorderRadius.circular(20),
         child: Container(
-          height: 160,
-          padding: EdgeInsets.all(16),
+          height: 140,
+          padding: EdgeInsets.all(12),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             gradient: LinearGradient(
@@ -112,29 +112,24 @@ class NecessidadesPsicossociaisPage extends StatelessWidget {
           child: Row(
             children: [
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(icon, color: Colors.white, size: 40),
-                    SizedBox(height: 12),
-                    Text(
-                      title,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                    Icon(icon, color: Colors.white, size: 32),
+                    SizedBox(height: 8),
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        title,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                    SizedBox(height: 8),
-                    /*Text(
-                      //subtitle,
-                      style: TextStyle(
-                        color: Colors.white.withOpacity(0.9),
-                        fontSize: 14,
-                      ),
-                    ),*/
                   ],
                 ),
               ),
@@ -142,13 +137,13 @@ class NecessidadesPsicossociaisPage extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  padding: EdgeInsets.all(8),
+                  padding: EdgeInsets.all(6),
                   child: Icon(
                     Icons.arrow_forward_ios,
                     color: Colors.white,
-                    size: 30,
+                    size: 24,
                   ),
                 ),
               ),

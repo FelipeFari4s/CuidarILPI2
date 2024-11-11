@@ -378,7 +378,7 @@ class AlimentacaoScreen extends StatelessWidget {
             "Mini Avaliação Nutricional – versão reduzida:",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          Image.asset("assets/images/orientacoes/Foto_tabela_of.png"),
+          Image.asset("assets/images/orientacoes/Avali_nutricional.png"),
           const SizedBox(height: 8),
           const Text(
             "Classificação de acordo com a pontuação dos escores:",
